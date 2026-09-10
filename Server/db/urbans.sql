@@ -1,7 +1,7 @@
 -- Crear la base de datos (si no existe)
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'DAS_Tarjetas')
+IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'Ecomers-db')
 BEGIN
-    CREATE DATABASE DAS_Tarjetas;
+    CREATE DATABASE Ecomers;
 END
 GO
 
