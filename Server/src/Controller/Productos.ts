@@ -45,7 +45,7 @@ export async function ModificarProducto(req:Request,res:Response){
             return res.status(400).json({error:'Debe Ingresar un ID para continuar'})
         }
         const pool= await poolPromise;
-        await pool.request()
+        const Resultado=await pool.request()
         // -->db ,tipo ,parametro 
         .input('codigo',sql.VarChar,codigo)
         .input('nombre',sql.VarChar,nombre)
@@ -56,6 +56,10 @@ export async function ModificarProducto(req:Request,res:Response){
         .input('imagen',sql.VarChar ,imagen ?? null)
 
         .query(`UPDATE Tarjetas SET codigo=@codigo, nombre=@nombre, descripcion=@descripcion, talle=@talle, precio=@precio, stock=@stock, imagen=@imagen WHERE Id=@Id`)
+
+        if(Resultado.rowsAffected[0]===0){
+            return res.status(404).json({error:'No se logro modificar correctamente los datos'})
+        }
 
         return res.status(201).json({Mensaje:'Productos Actualizado ✅'})
     }
