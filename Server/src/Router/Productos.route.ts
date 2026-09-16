@@ -1,8 +1,9 @@
 import {Router}from 'express'
-import { RegistrarProductos } from '../Controller/Productos'
+import { ModificarProducto, RegistrarProductos } from '../Controller/Productos'
 
 const Rutas = Router()
 
-Rutas.post('/',RegistrarProductos)
+Rutas.post('/Registrar',RegistrarProductos)
+Rutas.put('/Modificar/:Id',ModificarProducto)
 
 export default Rutas
