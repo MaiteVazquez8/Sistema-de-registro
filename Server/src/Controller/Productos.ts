@@ -1,26 +1,66 @@
 import {sql,poolPromise} from '../Config/supabase'
-import {Request,Response} from 'express'
+import {Response,Request} from 'express'
 
-export async function RegistrarProducto (req:Request,res:Response){
+export async function RegistrarProductos(req:Request,res:Response){
     try{
-        const {codigo,nombre,descripcion,precio,stock,imagen} = req.body
+        const {codigo,nombre,descripcion,talle,precio,stock,imagen}=req.body;
         if(!codigo || !nombre){
-            return res.status(400).json({Mensaje:'Debe completar los campos Código y Nombre para continuar'})
+            return res.status(400).json({Mensaje: 'Debe Completar los campos de Codigo y Nombre para continuar'})
         }
-        const pool = await poolPromise
-        const result = await pool.request()
-            .input('codigo', sql.VarChar, codigo)
-            .input('nombre', sql.VarChar, nombre)
-            .input('descripcion', sql.VarChar(sql.MAX), descripcion)
-            .input('precio', sql.Decimal(10, 2), precio ?? 0)
-            .input('stock', sql.Int, stock ?? 0)
-            .input('imagen', sql.VarChar, imagen ?? null)
+        const pool= await poolPromise;
+        await pool.request()
+        // -->db ,tipo ,parametro 
+        .input('codigo',sql.VarChar,codigo)
+        .input('nombre',sql.VarChar,nombre)
+        .input('descripcion',sql.VarChar(sql.MAX),descripcion)
+        .input('talle',sql.VarChar,talle)
+        .input('precio',sql.Decimal(10,2),precio ?? 0)
+        .input('stock',sql.Int,stock ?? 0)
+        .input('imagen',sql.VarChar ,imagen ?? null)
 
-            .query('INSERT INTO Productos (codigo, nombre, descripcion, precio, stock, imagen) VALUES (@codigo, @nombre, @descripcion, @precio, @stock, @imagen)') 
-            return res.status(201).json({Mensaje:'Producto registrado exitosamente'})
+        .query('INSERT INTO Tarjetas (codigo,nombre,descripcion,talle,precio,stock,imagen)VALUES(@codigo,@nombre,@descripcion,@talle,@precio,@stock,@imagen)')
+
+        return res.status(201).json({Mensaje:'Productos Registrado ✅'})
     }
     catch(error){
-        console.error('Error al registrar el producto:', error)
-        return res.status(500).json({error:'Error interno del servidor'})
+        console.error('No se logro registrar el Producto')
+        return res.status(500).json({error:'Error al Cargar la Base de Datos'})
+    }
+}
+
+
+// --->Funcion de Modificacion de Productos
+
+export async function ModificarProducto(req:Request,res:Response){
+    try{
+        // --> Indicamos el Parametro a Comparar
+        const {Id}=req.params;
+        const {codigo,nombre,descripcion,talle,precio,stock,imagen}=req.body;
+        if(!codigo || !nombre){
+            return res.status(400).json({Mensaje: 'Debe Completar los campos de Codigo y Nombre para continuar'})
+        }
+        // --> Verificamos si el ID se paso por parametro
+        if(!Id){
+            console.error('No se encontro el ID')
+            return res.status(400).json({error:'Debe Ingresar un ID para continuar'})
+        }
+        const pool= await poolPromise;
+        await pool.request()
+        // -->db ,tipo ,parametro 
+        .input('codigo',sql.VarChar,codigo)
+        .input('nombre',sql.VarChar,nombre)
+        .input('descripcion',sql.VarChar(sql.MAX),descripcion)
+        .input('talle',sql.VarChar,talle)
+        .input('precio',sql.Decimal(10,2),precio ?? 0)
+        .input('stock',sql.Int,stock ?? 0)
+        .input('imagen',sql.VarChar ,imagen ?? null)
+
+        .query(`UPDATE Tarjetas SET codigo=@codigo, nombre=@nombre, descripcion=@descripcion, talle=@talle, precio=@precio, stock=@stock, imagen=@imagen WHERE Id=@Id`)
+
+        return res.status(201).json({Mensaje:'Productos Actualizado ✅'})
+    }
+    catch(error){
+        console.error('No se logro actualizar el Producto')
+        return res.status(500).json({error:'Error al Cargar la Base de Datos'})
     }
 }
