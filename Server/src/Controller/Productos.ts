@@ -69,3 +69,38 @@ export async function ModificarProducto(req:Request,res:Response){
         return res.status(500).json({error:'Error al Cargar la Base de Datos'})
     }
 }
+
+export async function EliminarProducto(req:Request,res:Response){
+    try{
+        const {Id}=req.params;
+
+        if(!Id){
+            console.error('No se encontro el ID')
+            return res.status(400).json({
+                error:'Debe Ingresar un ID para continuar'
+            })
+        }
+
+        const pool = await poolPromise;
+
+        const Resultado = await pool.request()
+            .input('Id', sql.Int, Id)
+            .query(`DELETE FROM Tarjetas WHERE Id=@Id`);
+
+        if(Resultado.rowsAffected[0] === 0){
+            return res.status(404).json({
+                error:'No se encontro el producto'
+            })
+        }
+
+        return res.status(200).json({
+            Mensaje:'Producto Eliminado ✅'
+        })
+    }
+    catch(error){
+        console.error(error)
+        return res.status(500).json({
+            error:'Error al Cargar la Base de Datos'
+        })
+    }
+}
