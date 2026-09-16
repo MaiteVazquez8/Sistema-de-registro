@@ -1,8 +1,8 @@
 import {Router}from 'express'
-import { RegistrarProducto } from '../Controller/Productos'
+import { RegistrarProductos } from '../Controller/Productos'
 
 const Rutas = Router()
 
-Rutas.post('/',RegistrarProducto)
+Rutas.post('/',RegistrarProductos)
 
 export default Rutas
