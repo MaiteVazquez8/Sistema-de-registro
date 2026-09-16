@@ -23,7 +23,7 @@ export async function RegistrarProductos(req:Request,res:Response){
         return res.status(201).json({Mensaje:'Productos Registrado ✅'})
     }
     catch(error){
-        console.error('No se logro registrar el Producto')
+        console.error(error)
         return res.status(500).json({error:'Error al Cargar la Base de Datos'})
     }
 }
@@ -47,6 +47,7 @@ export async function ModificarProducto(req:Request,res:Response){
         const pool= await poolPromise;
         const Resultado=await pool.request()
         // -->db ,tipo ,parametro 
+        .input('Id', sql.Int, Id)
         .input('codigo',sql.VarChar,codigo)
         .input('nombre',sql.VarChar,nombre)
         .input('descripcion',sql.VarChar(sql.MAX),descripcion)
@@ -64,7 +65,7 @@ export async function ModificarProducto(req:Request,res:Response){
         return res.status(201).json({Mensaje:'Productos Actualizado ✅'})
     }
     catch(error){
-        console.error('No se logro actualizar el Producto')
+        console.error(error)
         return res.status(500).json({error:'Error al Cargar la Base de Datos'})
     }
 }
