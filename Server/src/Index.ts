@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import Rutas from './Router/Productos.route'
 
 // Carga las variables de entorno del .env
 dotenv.config();
@@ -12,6 +13,8 @@ app.use(express.json());
 
 // Configura el puerto (del .env o 3000 por defecto)
 const PORT = parseInt(process.env.PORT || '3000', 10);
+
+app.use('/api',Rutas)
 
 // Levanta el servidor
 app.listen(PORT, () => {
