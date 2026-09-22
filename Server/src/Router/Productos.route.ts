@@ -1,8 +1,9 @@
 import {Router}from 'express'
-import { ModificarProducto, RegistrarProductos, EliminarProducto } from '../Controller/Productos'
+import { ObtenerProductos, ModificarProducto, RegistrarProductos, EliminarProducto } from '../Controller/Productos'
 
 const Rutas = Router()
 
+Rutas.get('/Productos',ObtenerProductos)
 Rutas.post('/Registrar',RegistrarProductos)
 Rutas.put('/Modificar/:Id',ModificarProducto)
 Rutas.delete('/Eliminar/:Id',EliminarProducto)

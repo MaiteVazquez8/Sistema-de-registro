@@ -31,3 +31,10 @@ Ejecuta el script `Server/db/urbans.sql` antes de usar estos endpoints:
 - `POST /api/auth/login` con `{ "email": "...", "contrasena": "..." }`
 
 Las contraseñas se almacenan únicamente como hashes generados con bcrypt. El inicio de sesión verifica la contraseña y devuelve los datos básicos del usuario.
+
+## Productos
+
+- `GET /api/Productos` lista los productos.
+- `POST /api/Registrar` carga un producto.
+- `PUT /api/Modificar/:Id` modifica un producto.
+- `DELETE /api/Eliminar/:Id` elimina un producto.
