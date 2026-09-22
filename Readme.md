@@ -22,7 +22,7 @@ Server/
 │   └── Index.ts             # Punto de entrada de la aplicación Express
 ├── package.json
 └── tsconfig.json
-
+´´´
 ## Autenticación
 
 Ejecuta el script `Server/db/urbans.sql` antes de usar estos endpoints:
