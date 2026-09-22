@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import Rutas from './Router/Productos.route'
+import Rutas from './Router/Productos.route';
+import RutasAutenticacion from './Router/Autenticacion.route';
 
 // Carga las variables de entorno del .env
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(express.json());
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 app.use('/api',Rutas)
+app.use('/api/auth', RutasAutenticacion);
 
 // Levanta el servidor
 app.listen(PORT, () => {

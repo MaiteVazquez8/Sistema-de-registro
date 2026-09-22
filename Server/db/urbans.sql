@@ -22,3 +22,15 @@ BEGIN
     );
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Usuarios')
+BEGIN
+    CREATE TABLE Usuarios (
+        id            INT IDENTITY(1,1) PRIMARY KEY,
+        nombre        VARCHAR(100) NOT NULL,
+        email         VARCHAR(255) NOT NULL UNIQUE,
+        contrasena_hash VARCHAR(255) NOT NULL,
+        creado_en     DATETIME2 NOT NULL DEFAULT SYSDATETIME()
+    );
+END
+GO
